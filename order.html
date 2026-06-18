@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="NL Orders" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="theme-color" content="#efe9da" />
+  <title>Order a painting · Nic Ledger</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --paper:#efe9da; --paper-2:#e7ddc8; --card:#f4efe3;
+      --ink:#20302b; --ink-soft:#46514a; --muted:#7c7869;
+      --line:rgba(32,48,43,0.14); --crimson:#c01f30; --verdigris:#557067;
+      --serif:'Cormorant Garamond',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+      --pad:clamp(1.25rem,5vw,3rem);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{ -webkit-text-size-adjust:100%; }
+    body{
+      background:var(--paper); color:var(--ink-soft);
+      font-family:var(--sans); font-weight:300; font-size:16px; line-height:1.7;
+      -webkit-font-smoothing:antialiased; min-height:100svh;
+      padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+    body::before{
+      content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+      opacity:0.5; mix-blend-mode:multiply;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.10'/%3E%3C/svg%3E");
+    }
+    .wrap{ position:relative; z-index:1; max-width:640px; margin:0 auto; padding:clamp(2rem,6vw,3.5rem) var(--pad) 4rem; }
+
+    .brand{ display:flex; align-items:center; gap:0.55rem; font-family:var(--serif); font-size:1.2rem; font-weight:500; color:var(--ink); margin-bottom:2rem; }
+    .brand .nl{ font-style:italic; font-weight:600; color:var(--crimson); font-size:1.3rem; }
+
+    h1{ font-family:var(--serif); font-weight:700; font-size:clamp(2.1rem,7vw,2.9rem); line-height:1.04; color:var(--crimson); letter-spacing:-0.01em; margin-bottom:0.9rem; }
+    .rule{ width:68px; height:3px; background:var(--crimson); margin:0 0 1.3rem; }
+    .lede{ font-family:var(--serif); font-style:italic; font-size:1.2rem; line-height:1.5; color:var(--ink-soft); margin-bottom:2.25rem; max-width:46ch; }
+
+    form{ display:flex; flex-direction:column; gap:1.35rem; }
+    .group-label{ font-family:var(--serif); font-weight:700; font-size:1.15rem; color:var(--ink); margin:1rem 0 -0.4rem; }
+    .group-label:first-of-type{ margin-top:0; }
+    .field{ display:flex; flex-direction:column; gap:0.4rem; }
+    .row{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    @media (max-width:520px){ .row{ grid-template-columns:1fr; } }
+    label{ font-family:var(--serif); font-style:italic; font-size:1.1rem; color:var(--ink); }
+    label .opt{ font-style:normal; font-family:var(--sans); font-size:0.78rem; color:var(--muted); margin-left:0.4rem; }
+    input[type=text], input[type=email], input[type=tel], select{
+      font-family:var(--sans); font-size:16px; font-weight:300; color:var(--ink);
+      background:var(--card); border:1px solid var(--line); border-radius:3px;
+      padding:0.9rem 1rem; width:100%; transition:border-color .2s, box-shadow .2s; appearance:none; -webkit-appearance:none;
+    }
+    select{ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23557067' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 1rem center; padding-right:2.5rem; }
+    input:focus, select:focus{ outline:none; border-color:var(--crimson); box-shadow:0 0 0 3px rgba(192,31,48,0.12); }
+    .prefix{ position:relative; }
+    .prefix span{ position:absolute; left:1rem; top:50%; transform:translateY(-50%); font-family:var(--serif); font-size:1.15rem; color:var(--muted); pointer-events:none; }
+    .prefix input{ padding-left:2rem; }
+
+    /* segmented (dimensions, Y/N) */
+    .seg{ display:flex; gap:0.5rem; flex-wrap:wrap; }
+    .seg label{ flex:1; min-width:72px; }
+    .seg input{ position:absolute; opacity:0; pointer-events:none; }
+    .seg .opt-box{ display:block; text-align:center; font-family:var(--serif); font-style:normal; font-size:1.15rem; color:var(--ink-soft);
+      background:var(--card); border:1px solid var(--line); border-radius:3px; padding:0.8rem 0.6rem; cursor:pointer; transition:all .15s; }
+    .seg input:checked + .opt-box{ background:var(--crimson); color:#f4eede; border-color:var(--crimson); }
+
+    .check{ display:flex; align-items:flex-start; gap:0.8rem; background:var(--card); border:1px solid var(--line); border-radius:3px; padding:1rem; }
+    .check input{ width:24px; height:24px; min-width:24px; margin-top:2px; accent-color:var(--crimson); }
+    .check label{ font-family:var(--sans); font-style:normal; font-size:0.95rem; color:var(--ink-soft); line-height:1.5; }
+
+    button.submit{
+      font-family:var(--serif); font-style:italic; font-size:1.3rem; color:#f4eede;
+      background:var(--crimson); border:none; border-radius:3px; padding:1.05rem 1.4rem;
+      cursor:pointer; transition:opacity .25s; margin-top:0.75rem; -webkit-tap-highlight-color:transparent;
+    }
+    button.submit:active{ opacity:0.8; }
+
+    .toast{ position:fixed; inset:0; z-index:50; background:rgba(239,233,218,0.98); display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; }
+    .toast.open{ display:flex; }
+    .toast .tick{ width:84px; height:84px; border-radius:50%; background:var(--verdigris); color:#f4eede; display:flex; align-items:center; justify-content:center; font-size:2.6rem; margin-bottom:1.5rem; }
+    .toast h2{ font-family:var(--serif); font-weight:700; font-size:2.4rem; color:var(--crimson); margin-bottom:0.5rem; }
+    .toast p{ font-family:var(--serif); font-style:italic; font-size:1.3rem; color:var(--ink-soft); }
+
+    footer{ position:relative; z-index:1; max-width:640px; margin:0 auto; padding:1.5rem var(--pad) 2.5rem; display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; border-top:1px solid var(--line); font-family:var(--serif); font-style:italic; font-size:1rem; color:var(--muted); }
+    footer .count{ color:var(--ink-soft); }
+    footer a{ color:var(--crimson); cursor:pointer; border-bottom:1px solid transparent; }
+    footer a:active{ border-color:var(--crimson); }
+
+    .panel{ position:fixed; inset:0; z-index:60; background:var(--paper); display:none; flex-direction:column; padding:env(safe-area-inset-top) 0 0; }
+    .panel.open{ display:flex; }
+    .panel-head{ display:flex; align-items:center; justify-content:space-between; padding:1.25rem var(--pad); border-bottom:1px solid var(--line); }
+    .panel-head h2{ font-family:var(--serif); font-weight:700; font-size:1.5rem; color:var(--ink); }
+    .panel-head .close{ font-family:var(--serif); font-style:italic; font-size:1.1rem; color:var(--crimson); background:none; border:none; cursor:pointer; }
+    .panel-actions{ display:flex; gap:0.75rem; flex-wrap:wrap; padding:1rem var(--pad); border-bottom:1px solid var(--line); }
+    .panel-actions button{ font-family:var(--serif); font-style:italic; font-size:1.05rem; padding:0.7rem 1.1rem; border-radius:3px; cursor:pointer; border:1px solid var(--crimson); background:var(--crimson); color:#f4eede; }
+    .panel-actions button.ghost{ background:transparent; color:var(--crimson); }
+    .panel-actions button.danger{ border-color:var(--muted); background:transparent; color:var(--muted); margin-left:auto; }
+    .panel-list{ flex:1; overflow-y:auto; padding:0.5rem var(--pad) 3rem; -webkit-overflow-scrolling:touch; }
+    .entry{ padding:1rem 0; border-bottom:1px solid var(--line); }
+    .entry .e-name{ font-family:var(--serif); font-size:1.25rem; color:var(--ink); }
+    .entry .e-meta{ font-size:0.9rem; color:var(--muted); margin-top:0.15rem; word-break:break-word; }
+    .entry .e-pay{ font-family:var(--serif); font-style:italic; color:var(--verdigris); }
+    .entry .e-time{ font-family:var(--serif); font-style:italic; font-size:0.85rem; color:var(--verdigris); margin-top:0.25rem; }
+    .empty{ text-align:center; color:var(--muted); font-family:var(--serif); font-style:italic; font-size:1.2rem; padding:3rem 1rem; }
+    .sync-note{ font-size:0.8rem; color:var(--muted); padding:0 var(--pad) 1rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand"><span class="nl">NL</span> Nic Ledger</div>
+    <h1>Order &amp; enquiry</h1>
+    <div class="rule"></div>
+    <p class="lede">Where We Are From — originals, prints, and commissions. Fill in the details below and I'll be in touch.</p>
+
+    <form id="form" autocomplete="on" novalidate>
+
+      <div class="group-label">Your details</div>
+      <div class="row">
+        <div class="field"><label for="first">First name</label><input type="text" id="first" name="first" autocomplete="given-name" /></div>
+        <div class="field"><label for="last">Last name</label><input type="text" id="last" name="last" autocomplete="family-name" /></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="email">Email</label><input type="email" id="email" name="email" autocomplete="email" inputmode="email" required /></div>
+        <div class="field"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" /></div>
+      </div>
+
+      <div class="group-label">Address</div>
+      <div class="field"><label for="addr1">Address line 1</label><input type="text" id="addr1" name="addr1" autocomplete="address-line1" /></div>
+      <div class="field"><label for="addr2">Address line 2 <span class="opt">optional</span></label><input type="text" id="addr2" name="addr2" autocomplete="address-line2" /></div>
+      <div class="row">
+        <div class="field"><label for="town">Town / city</label><input type="text" id="town" name="town" autocomplete="address-level2" /></div>
+        <div class="field"><label for="county">County</label><input type="text" id="county" name="county" autocomplete="address-level1" /></div>
+      </div>
+      <div class="field"><label for="postcode">Postcode</label><input type="text" id="postcode" name="postcode" autocomplete="postal-code" autocapitalize="characters" /></div>
+
+      <div class="group-label">The work</div>
+      <div class="field">
+        <label for="painting">Painting title</label>
+        <select id="painting" name="painting">
+          <option value="" selected>Select a painting…</option>
+          <optgroup label="Where We Are From">
+            <option>Venus of Willendorf</option>
+            <option>Löwenmensch</option>
+            <option>Olmec Head</option>
+            <option>King Shulgi of Ur</option>
+            <option>Cycladic Figure</option>
+          </optgroup>
+          <optgroup label="Other work">
+            <option>Long Grass</option>
+            <option>Second Wave</option>
+            <option>Tim Platt</option>
+            <option>Polly and May</option>
+            <option>Strong Girls Club</option>
+            <option>Discover</option>
+          </optgroup>
+          <option value="Commission / other">Commission / other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Dimensions</label>
+        <div class="seg" id="dims">
+          <label><input type="radio" name="dims" value="A4" /><span class="opt-box">A4</span></label>
+          <label><input type="radio" name="dims" value="A3" /><span class="opt-box">A3</span></label>
+          <label><input type="radio" name="dims" value="A2" /><span class="opt-box">A2</span></label>
+        </div>
+      </div>
+      <div class="field"><label for="other">Other / details <span class="opt">size, framing, commission notes…</span></label><input type="text" id="other" name="other" /></div>
+
+      <div class="group-label">Payment</div>
+      <div class="row">
+        <div class="field">
+          <label for="amount">Payment amount</label>
+          <div class="prefix"><span>£</span><input type="text" id="amount" name="amount" inputmode="decimal" placeholder="0.00" /></div>
+        </div>
+        <div class="field">
+          <label>Payment taken?</label>
+          <div class="seg" id="paid">
+            <label><input type="radio" name="paid" value="Yes" /><span class="opt-box">Yes</span></label>
+            <label><input type="radio" name="paid" value="No" checked /><span class="opt-box">No</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="check">
+        <input type="checkbox" id="mailing" name="mailing" checked />
+        <label for="mailing">Add me to the mailing list — occasional updates about new work and exhibitions.</label>
+      </div>
+
+      <button type="submit" class="submit">Save order &thinsp;→</button>
+    </form>
+  </div>
+
+  <footer>
+    <span class="count" id="count">0 saved on this device</span>
+    <a id="manageBtn">Manage orders</a>
+  </footer>
+
+  <div class="toast" id="toast">
+    <div class="tick">✓</div>
+    <h2>Saved</h2>
+    <p id="toastName">Order recorded.</p>
+  </div>
+
+  <div class="panel" id="panel">
+    <div class="panel-head">
+      <h2>Orders</h2>
+      <button class="close" id="panelClose">Done ✕</button>
+    </div>
+    <div class="panel-actions">
+      <button id="exportBtn">Export spreadsheet (CSV)</button>
+      <button class="ghost" id="syncBtn">Sync now</button>
+      <button class="danger" id="clearBtn">Clear all</button>
+    </div>
+    <div class="sync-note" id="syncNote"></div>
+    <div class="panel-list" id="list"></div>
+  </div>
+
+  <script>
+  (function(){
+    "use strict";
+    /* ---------------------------------------------------------------
+       OPTIONAL live Google Sheet feed.
+       Leave blank to run fully offline (data saved on this device,
+       export the CSV whenever you like). To feed a Google Sheet live,
+       paste your Apps Script Web-App URL between the quotes below.
+       Full instructions are in SETUP-forms.md.
+    ----------------------------------------------------------------*/
+    var SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbwrxv3jDvS_t2oXq_gEM2asWHkSxM757x0RUqsVATICSVmE3w1Pdg8gRigxUVr00rDz-g/exec";
+
+    var KEY = "nl_orders_v1";
+    var EVENT = "Chalke Valley 2026";
+
+    function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch(e){ return []; } }
+    function save(a){ localStorage.setItem(KEY, JSON.stringify(a)); }
+    function $(id){ return document.getElementById(id); }
+    function radio(name){ var el=document.querySelector('input[name="'+name+'"]:checked'); return el?el.value:""; }
+    function fmt(ts){ var d=new Date(ts); return d.toLocaleDateString('en-GB')+" "+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}); }
+    function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+    function refreshCount(){ var n=load().length; $("count").textContent = n+" saved on this device"; }
+
+    function render(){
+      var a=load().slice().reverse(), el=$("list");
+      if(!a.length){ el.innerHTML='<div class="empty">No orders yet.</div>'; return; }
+      el.innerHTML=a.map(function(e){
+        var nm=((e.first||'')+' '+(e.last||'')).trim()||'(no name)';
+        var dims=e.dims?(' · '+e.dims):'';
+        var pay=e.amount?(' · £'+e.amount+(e.paid==='Yes'?' paid':' unpaid')):'';
+        return '<div class="entry"><div class="e-name">'+esc(nm)+(e.synced?'':' &nbsp;·&nbsp;<span style="color:var(--crimson)">not synced</span>')+'</div>'+
+          '<div class="e-meta">'+esc(e.painting||'(no painting)')+esc(dims)+(e.other?' · '+esc(e.other):'')+'</div>'+
+          '<div class="e-meta">'+esc(e.email||'')+(e.phone?' · '+esc(e.phone):'')+'</div>'+
+          '<div class="e-meta e-pay">'+(e.amount?('£'+esc(e.amount)+' · '+(e.paid==='Yes'?'paid':'not paid')):'no payment recorded')+(e.mailing?' · +mailing list':'')+'</div>'+
+          '<div class="e-time">'+fmt(e.ts)+'</div></div>';
+      }).join("");
+    }
+
+    $("form").addEventListener("submit", function(ev){
+      ev.preventDefault();
+      var email=$("email").value.trim();
+      if(!email || email.indexOf("@")<1){ $("email").focus(); $("email").style.borderColor="var(--crimson)"; return; }
+      var entry={
+        ts:Date.now(), event:EVENT,
+        first:$("first").value.trim(), last:$("last").value.trim(),
+        email:email, phone:$("phone").value.trim(),
+        addr1:$("addr1").value.trim(), addr2:$("addr2").value.trim(),
+        town:$("town").value.trim(), county:$("county").value.trim(), postcode:$("postcode").value.trim(),
+        painting:$("painting").value, dims:radio("dims"), other:$("other").value.trim(),
+        amount:$("amount").value.trim(), paid:radio("paid"), mailing:$("mailing").checked,
+        synced:false
+      };
+      var a=load(); a.push(entry); save(a);
+      trySync(); refreshCount();
+      var nm=entry.first||"";
+      $("toastName").textContent = nm ? ("Order saved for "+nm+".") : "Order recorded.";
+      $("form").reset();
+      document.querySelector('input[name="paid"][value="No"]').checked=true;
+      $("mailing").checked=true; $("email").style.borderColor="";
+      var t=$("toast"); t.classList.add("open");
+      setTimeout(function(){ t.classList.remove("open"); window.scrollTo(0,0); $("first").focus(); },1900);
+    });
+
+    $("manageBtn").addEventListener("click", function(){ render(); updateSyncNote(); $("panel").classList.add("open"); });
+    $("panelClose").addEventListener("click", function(){ $("panel").classList.remove("open"); });
+
+    $("clearBtn").addEventListener("click", function(){
+      if(!load().length) return;
+      if(confirm("Delete ALL orders saved on this device? Export the CSV first if you need a copy. This cannot be undone.")){
+        if(confirm("Really delete every order? Last chance.")){ save([]); render(); refreshCount(); updateSyncNote(); }
+      }
+    });
+
+    $("exportBtn").addEventListener("click", function(){
+      var a=load(); if(!a.length){ alert("Nothing to export yet."); return; }
+      var cols=["Date","Event","First name","Last name","Email","Phone","Address 1","Address 2","Town/City","County","Postcode","Painting","Dimensions","Other / details","Payment amount (£)","Payment taken","Add to mailing list"];
+      var rows=a.map(function(e){ return [fmt(e.ts), e.event||EVENT, e.first||"", e.last||"", e.email||"", e.phone||"", e.addr1||"", e.addr2||"", e.town||"", e.county||"", e.postcode||"", e.painting||"", e.dims||"", e.other||"", e.amount||"", e.paid||"", e.mailing?"Yes":"No"]; });
+      var csv=[cols].concat(rows).map(function(r){ return r.map(csvCell).join(","); }).join("\r\n");
+      var stamp=new Date().toISOString().slice(0,10);
+      var fname="nl-orders-"+stamp+".csv";
+      var blob=new Blob(["﻿"+csv],{type:"text/csv"});
+      shareOrDownload(blob,fname);
+    });
+    function csvCell(v){ v=String(v); return /[",\r\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }
+    function shareOrDownload(blob,fname){
+      var file=new File([blob],fname,{type:"text/csv"});
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        navigator.share({files:[file],title:fname}).catch(function(){ download(blob,fname); });
+      } else { download(blob,fname); }
+    }
+    function download(blob,fname){
+      var url=URL.createObjectURL(blob), a=document.createElement("a");
+      a.href=url; a.download=fname; document.body.appendChild(a); a.click();
+      setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); },1500);
+    }
+
+    function trySync(){
+      if(!SHEET_ENDPOINT || !navigator.onLine) return;
+      var a=load(), pending=a.filter(function(e){ return !e.synced; });
+      if(!pending.length) return;
+      pending.forEach(function(e){
+        fetch(SHEET_ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({form:"order"},e))})
+          .then(function(){ e.synced=true; save(a); updateSyncNote(); render(); })
+          .catch(function(){});
+      });
+    }
+    function updateSyncNote(){
+      var note=$("syncNote");
+      if(!SHEET_ENDPOINT){ note.textContent="Running offline — orders are saved on this device. Use Export to get the spreadsheet."; return; }
+      var pending=load().filter(function(e){ return !e.synced; }).length;
+      note.textContent = navigator.onLine ? (pending? pending+" waiting to sync to Google Sheet…" : "All orders synced to Google Sheet.") : "Offline — will sync when back online.";
+    }
+    $("syncBtn").addEventListener("click", function(){ trySync(); updateSyncNote(); });
+    window.addEventListener("online", trySync);
+
+    refreshCount(); trySync();
+  })();
+  </script>
+</body>
+</html>

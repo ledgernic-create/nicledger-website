@@ -1,0 +1,27 @@
+# ── Allow-list: ignore EVERYTHING, then permit only the website files ──
+# Your files all stay on your computer. This only controls what gets
+# published to GitHub / the live site.
+
+/*
+
+# Root files the site needs
+!/.gitignore
+!/index.html
+!/mailing-list.html
+!/order.html
+!/llms.txt
+!/push-to-github.bat
+!/publish-cleanup.bat
+
+# Folders the site needs
+!/other-work/
+!/where-we-are-from/
+
+# Inside where-we-are-from, keep only the six paintings the site shows
+/where-we-are-from/*
+!/where-we-are-from/Venus.jpg
+!/where-we-are-from/Venus-crop.jpg
+!/where-we-are-from/Lowenmensch.jpg
+!/where-we-are-from/Olmec-head.jpg
+!/where-we-are-from/Sumerian.jpg
+!/where-we-are-from/Cycladic.jpg
