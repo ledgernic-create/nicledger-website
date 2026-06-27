@@ -281,6 +281,15 @@
       transition: background 0.3s, color 0.3s; cursor: none; white-space: nowrap;
     }
     .p-buy:hover { background: var(--crimson); color: #f4eede; }
+    .p-price { font-family: var(--serif); font-style: italic; font-size: 1.12rem; color: var(--ink); margin-top: 0.5rem; }
+    .p-price .sold { font-style: normal; font-weight: 600; font-size: 0.78rem; color: var(--verdigris); border: 1px solid var(--verdigris); border-radius: 2px; padding: 0.08rem 0.5rem; margin-left: 0.55rem; vertical-align: middle; }
+    .p-enquire {
+      display: inline-flex; align-items: center; gap: 0.4rem; margin: 1.75rem 0 0 1.25rem;
+      font-family: var(--serif); font-style: italic; font-size: 0.95rem; color: #f4eede;
+      background: var(--crimson); border: 1px solid var(--crimson); border-radius: 2px; padding: 0.34rem 0.95rem;
+      transition: opacity 0.3s; cursor: none; white-space: nowrap;
+    }
+    .p-enquire:hover { opacity: 0.85; }
   </style>
 </head>
 <body>
@@ -295,7 +304,7 @@
       <li><a href="#about"   onclick="closeNav()">About</a></li>
       <li><a href="#works"   onclick="closeNav()">Work</a></li>
       <li><a href="#people"  onclick="closeNav()">Other Work</a></li>
-      <li><a class="nav-prints" href="https://www.ukgiclee.co.uk/gallery/?REG=1776" target="_blank" rel="noopener">Prints</a></li>
+      <li><a class="nav-prints" href="https://www.theartcircus.com/product-category/nic-ledger-prints" target="_blank" rel="noopener">Prints</a></li>
       <li><a href="#contact" onclick="closeNav()">Contact</a></li>
     </ul>
   </nav>
@@ -359,9 +368,11 @@
           <p class="p-cat">No. 01</p>
           <h3 class="p-title">Venus of Willendorf</h3>
           <p class="p-line">Oil on canvas · 61 × 61 cm · 2026</p>
+          <p class="p-price">Original · £850</p>
           <p class="p-desc">Palaeolithic fertility figure, circa 28,000 BCE. Limestone. Natural History Museum, Vienna.</p>
           <span class="p-view" onclick="lb('where-we-are-from/Venus-crop.jpg','Venus of Willendorf, 2026')">View larger &thinsp;↗</span>
-          <a class="p-buy" href="https://www.ukgiclee.co.uk/gallery/?REG=1776" target="_blank" rel="noopener">Buy a print &thinsp;↗</a>
+          <a class="p-buy" href="https://www.theartcircus.com/product-category/nic-ledger-prints" target="_blank" rel="noopener">Buy a print &thinsp;↗</a>
+          <a class="p-enquire" href="mailto:ledger.nic@googlemail.com?subject=Original%20enquiry%3A%20Venus%20of%20Willendorf&body=Hi%20Nic%2C%20I%27d%20like%20to%20enquire%20about%20buying%20the%20original%20of%20Venus%20of%20Willendorf%20(%C2%A3850).">Enquire to buy &thinsp;→</a>
         </div>
       </div>
 
@@ -374,9 +385,11 @@
           <p class="p-cat">No. 02</p>
           <h3 class="p-title">Löwenmensch</h3>
           <p class="p-line">Oil on paper · 40 × 51 cm · 2021</p>
+          <p class="p-price">Original · £850</p>
           <p class="p-desc">The oldest known figurative sculpture, carved from mammoth ivory approximately 40,000 years ago. Found in the Swabian Jura, Germany.</p>
           <span class="p-view" onclick="lb('where-we-are-from/Lowenmensch.jpg','Löwenmensch, 2024')">View larger &thinsp;↗</span>
-          <a class="p-buy" href="https://www.ukgiclee.co.uk/gallery/?REG=1776" target="_blank" rel="noopener">Buy a print &thinsp;↗</a>
+          <a class="p-buy" href="https://www.theartcircus.com/product-category/nic-ledger-prints" target="_blank" rel="noopener">Buy a print &thinsp;↗</a>
+          <a class="p-enquire" href="mailto:ledger.nic@googlemail.com?subject=Original%20enquiry%3A%20L%C3%B6wenmensch&body=Hi%20Nic%2C%20I%27d%20like%20to%20enquire%20about%20buying%20the%20original%20of%20L%C3%B6wenmensch%20(%C2%A3850).">Enquire to buy &thinsp;→</a>
         </div>
       </div>
 
@@ -389,9 +402,11 @@
           <p class="p-cat">No. 03</p>
           <h3 class="p-title">Olmec Head</h3>
           <p class="p-line">Oil on canvas · 30 × 40 cm · 2022</p>
+          <p class="p-price">Original · £550</p>
           <p class="p-desc">Colossal Olmec head at the moment of excavation. Mesoamerica, circa 1200–400 BCE. Basalt stone.</p>
           <span class="p-view" onclick="lb('where-we-are-from/Olmec-head.jpg','Olmec Head, 2026')">View larger &thinsp;↗</span>
-          <a class="p-buy" href="https://www.ukgiclee.co.uk/gallery/?REG=1776" target="_blank" rel="noopener">Buy a print &thinsp;↗</a>
+          <a class="p-buy" href="https://www.theartcircus.com/product-category/nic-ledger-prints" target="_blank" rel="noopener">Buy a print &thinsp;↗</a>
+          <a class="p-enquire" href="mailto:ledger.nic@googlemail.com?subject=Original%20enquiry%3A%20Olmec%20Head&body=Hi%20Nic%2C%20I%27d%20like%20to%20enquire%20about%20buying%20the%20original%20of%20Olmec%20Head%20(%C2%A3550).">Enquire to buy &thinsp;→</a>
         </div>
       </div>
 
@@ -404,9 +419,10 @@
           <p class="p-cat">No. 04</p>
           <h3 class="p-title">King Shulgi of Ur</h3>
           <p class="p-line">Oil on canvas · 59 × 80 cm · 2026</p>
+          <p class="p-price">Original · £700 <span class="sold">Sold</span></p>
           <p class="p-desc">Foundation figure of King Shulgi carrying a basket. Copper. c. 2094–2047 BC. Mesopotamia, Nippur. The Metropolitan Museum of Art, New York.</p>
           <span class="p-view" onclick="lb('where-we-are-from/Sumerian.jpg','King Shulgi of Ur, 2026')">View larger &thinsp;↗</span>
-          <a class="p-buy" href="https://www.ukgiclee.co.uk/gallery/?REG=1776" target="_blank" rel="noopener">Buy a print &thinsp;↗</a>
+          <a class="p-buy" href="https://www.theartcircus.com/product-category/nic-ledger-prints" target="_blank" rel="noopener">Buy a print &thinsp;↗</a>
         </div>
       </div>
 
@@ -419,9 +435,11 @@
           <p class="p-cat">No. 05</p>
           <h3 class="p-title">Cycladic Figure</h3>
           <p class="p-line">Oil on canvas · 51 × 75 cm · 2026</p>
+          <p class="p-price">Original · £700</p>
           <p class="p-desc">Cycladic figure. Marble. 2500–2400 BC. Cyclades, Greece.</p>
           <span class="p-view" onclick="lb('where-we-are-from/Cycladic.jpg','Cycladic Figure, 2026')">View larger &thinsp;↗</span>
-          <a class="p-buy" href="https://www.ukgiclee.co.uk/gallery/?REG=1776" target="_blank" rel="noopener">Buy a print &thinsp;↗</a>
+          <a class="p-buy" href="https://www.theartcircus.com/product-category/nic-ledger-prints" target="_blank" rel="noopener">Buy a print &thinsp;↗</a>
+          <a class="p-enquire" href="mailto:ledger.nic@googlemail.com?subject=Original%20enquiry%3A%20Cycladic%20Figure&body=Hi%20Nic%2C%20I%27d%20like%20to%20enquire%20about%20buying%20the%20original%20of%20Cycladic%20Figure%20(%C2%A3700).">Enquire to buy &thinsp;→</a>
         </div>
       </div>
 
@@ -477,7 +495,7 @@
           <h2>Get in touch</h2>
           <p>For enquiries about work, commissions, or upcoming exhibitions:</p>
           <a class="contact-email" href="mailto:ledger.nic@googlemail.com">ledger.nic@googlemail.com</a>
-          <div class="contact-prints">Prints of the series are available online — <a href="https://www.ukgiclee.co.uk/gallery/?REG=1776" target="_blank" rel="noopener">buy at UK Giclée &thinsp;↗</a></div>
+          <div class="contact-prints">Prints of the series are available online — <a href="https://www.theartcircus.com/product-category/nic-ledger-prints" target="_blank" rel="noopener">buy at UK Giclée &thinsp;↗</a></div>
           <div class="contact-social">
             <!-- <a href="https://instagram.com/YOURHANDLE" target="_blank" rel="noopener">Instagram</a> -->
           </div>
