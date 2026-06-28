@@ -290,6 +290,33 @@
       transition: opacity 0.3s; cursor: none; white-space: nowrap;
     }
     .p-enquire:hover { opacity: 0.85; }
+    /* ── Persistent mailing-list button ─────────────────────── */
+    .ml-fab {
+      position: fixed; bottom: 1.4rem; left: 1.4rem; z-index: 90;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--serif); font-style: italic; font-size: 1.02rem;
+      color: #f4eede; background: var(--crimson);
+      padding: 0.62rem 1.2rem; border-radius: 999px;
+      box-shadow: 0 8px 24px rgba(32,48,43,0.28); cursor: none;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .ml-fab:hover { opacity: 0.92; transform: translateY(-2px); }
+    .ml-fab .env { font-style: normal; font-size: 1.05rem; line-height: 1; }
+    @media (max-width: 600px) {
+      .ml-fab { bottom: 1rem; left: 1rem; font-size: 0.92rem; padding: 0.52rem 1rem; }
+    }
+    /* ── Contact mailing-list CTA ───────────────────────────── */
+    .ml-block { margin-top: 2.25rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+    .ml-lead { font-family: var(--serif); font-weight: 700; font-style: normal; font-size: clamp(1.4rem, 2.4vw, 1.9rem); color: var(--ink); line-height: 1.2; margin-bottom: 1.1rem; }
+    .ml-cta {
+      display: inline-flex; align-items: center; gap: 0.65rem;
+      font-family: var(--serif); font-style: italic; font-size: clamp(1.25rem, 2vw, 1.5rem); color: #f4eede;
+      background: var(--crimson); padding: 0.9rem 1.9rem; border-radius: 4px;
+      box-shadow: 0 10px 28px rgba(192,31,48,0.30); cursor: none;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .ml-cta:hover { opacity: 0.92; transform: translateY(-2px); }
+    .ml-cta .env { font-style: normal; font-size: 1.2rem; line-height: 1; }
   </style>
 </head>
 <body>
@@ -496,6 +523,10 @@
           <p>For enquiries about work, commissions, or upcoming exhibitions:</p>
           <a class="contact-email" href="mailto:ledger.nic@googlemail.com">ledger.nic@googlemail.com</a>
           <div class="contact-prints">Prints of the series are available online — <a href="https://www.theartcircus.com/product-category/nic-ledger-prints" target="_blank" rel="noopener">buy at UK Giclée &thinsp;↗</a></div>
+          <div class="ml-block">
+            <p class="ml-lead">Be first to hear about new work &amp; exhibitions</p>
+            <a class="ml-cta" href="mailing-list.html"><span class="env">✉</span> Join the mailing list &thinsp;↗</a>
+          </div>
           <div class="contact-social">
             <!-- <a href="https://instagram.com/YOURHANDLE" target="_blank" rel="noopener">Instagram</a> -->
           </div>
@@ -517,6 +548,9 @@
     </footer>
 
   </div>
+
+  <!-- ── Persistent mailing-list button ─────────────────────── -->
+  <a class="ml-fab" href="mailing-list.html"><span class="env">✉</span> Join the mailing list</a>
 
   <!-- ── Lightbox ───────────────────────────────────────────── -->
   <div class="lb" id="lb" onclick="lbClose(event)">
